@@ -1,5 +1,7 @@
 FROM ajoergensen/baseimage-alpine
-MAINTAINER ajoergensen
+LABEL maintainer=ajoergensen
+
+ENV DISABLE_SYSLOG=true DISABLE_CRON=true
 
 RUN \
 	apk add --no-cache nginx dockerize && \
