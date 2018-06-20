@@ -11,3 +11,5 @@ ADD root/ /
 
 RUN \
 	chmod +x -v /etc/cont-init.d/*.sh /etc/services.d/*/run
+
+EXPOSE 80
