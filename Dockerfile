@@ -4,7 +4,7 @@ LABEL maintainer=ajoergensen
 ENV DISABLE_SYSLOG=true DISABLE_CRON=true
 
 RUN \
-	apk add --no-cache nginx dockerize && \
+	apk add --no-cache nginx dockerize@testing && \
 	rm -rf /var/cache/apk/*
 
 ADD root/ /
