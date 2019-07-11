@@ -17,14 +17,20 @@ http {
     sendfile        on;
     keepalive_timeout  65;
 
+    {{ range $host := groupByMulti $ "Env.REDIRECT_TARGET" "," }}
+    {{ $host   := trim $host }}
+    {{ $code   := or .Env.REDIRECT_CODE "307" }}
+    {{ $scheme := or .Env.REDIRECT_SCHEME "$scheme" }}
+    {{ $path   := or .Env.REDIRECT_PATH "$request_uri" }}
     server {
-        server_name localhost;
+        server_name *.{{ .Env.DOMAINNAME }};
         listen 80;
-	return {{ default .Env.REDIRECT_CODE "301" }} {{ default .Env.REDIRECT_SCHEME "$scheme" }}://{{ .Env.REDIRECT_TARGET }}{{ default .Env.REDIRECT_PATH "$request_uri" }};         
+	return {{ $code }} {{ $scheme }}://{{ $host }}{{ $path }};         
 
         error_page   500 502 503 504  /50x.html;
         location = /50x.html {
              root   /usr/share/nginx/html;
         }
     }
+    {{ end }}
 }
